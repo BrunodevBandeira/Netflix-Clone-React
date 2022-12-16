@@ -3,11 +3,13 @@ import Tmdb from "./tmdb";
 import './App.css';
 import MovieRow from "./components/MovieRow"
 import FeatureMovie from "./components/FeatureMovie";
+import Header from "./components/Header";
 
 export default () => {
 
   const [movieList, setMovieList] = React.useState([]);
   const [featureData, setFeatureData] = React.useState(null);
+  const [blackHeader, setBlackHeader] = React.useState(false);
 
   React.useEffect(() => {
     const loadAll = async () => {
@@ -26,9 +28,28 @@ export default () => {
     loadAll();
   }, []);
 
+  React.useEffect(() => {
+
+    const scrollListener = () => {
+      if(window.scrollY > 10) {
+          setBlackHeader(true);
+      } else {
+        setBlackHeader(false);
+      }
+    }
+
+    window.addEventListener("scroll", scrollListener);
+
+    return () => {
+      window.removeEventListener("scroll", scrollListener);
+    }
+
+  }, [])
+
   return (
     <div className="page"> 
-      { featureData && <FeatureMovie item={featureData} />}
+    <Header  black={blackHeader} />
+      {  featureData && <FeatureMovie item={featureData} />}
         <section className="lists">
             {movieList.map((item, key) => (
               <div>
@@ -36,8 +57,14 @@ export default () => {
               </div>
             ))}
         </section>
+
+        <footer>
+          Clone Netflix <span role="img" aria-label="coração"> ❤ </span> desenvolvido pelo Bruno Bandeira
+        </footer>
     </div>
   );
 }
 
-//02:03
+// npm install @mui/material @emotion/react @emotion/styled
+// npm install @mui/icons-material
+
