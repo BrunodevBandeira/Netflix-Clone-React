@@ -4,6 +4,7 @@ import './App.css';
 import MovieRow from "./components/MovieRow"
 import FeatureMovie from "./components/FeatureMovie";
 import Header from "./components/Header";
+import load from "./assets/loading.gif";
 
 export default () => {
 
@@ -61,6 +62,13 @@ export default () => {
         <footer>
           Clone Netflix <span role="img" aria-label="coração"> ❤ </span> desenvolvido pelo Bruno Bandeira
         </footer>
+
+          {
+          movieList.length <= 0 && <div className="loading"> 
+                                        <img src={load} alt="" />
+                                   </div>
+          }
+
     </div>
   );
 }
